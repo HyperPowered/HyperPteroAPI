@@ -7,7 +7,6 @@ import lombok.Getter;
 @Getter
 public enum ActionType {
 
-    CREATE_SERVER("/api/application/servers/");
-
+    SERVER("/api/application/servers/");
     private final String linkPatch;
 }

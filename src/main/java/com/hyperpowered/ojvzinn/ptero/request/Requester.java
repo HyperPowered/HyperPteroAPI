@@ -16,12 +16,13 @@ public class Requester {
 
     private RequestMethod method;
     private String apiToken;
-    private String painelLink;
+    private String panelLink;
     private ActionType actionType;
 
-    public void request(String bodyRequest) {
+    public void request(String bodyRequest, String... additionalPatch) {
+        String finalLink = this.panelLink + this.actionType.getLinkPatch() + (additionalPatch.length > 0 ? additionalPatch[0] : "");
         try {
-            URL url = new URL(this.painelLink + actionType.getLinkPatch());
+            URL url = new URL(finalLink);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod(method.getMethod());
@@ -40,12 +41,14 @@ public class Requester {
                 System.out.println("[HYPER-PTEROAPI] Responce Code: " + connection.getResponseCode());
                 System.out.println("[HYPER-PTEROAPI] Request BodyCode: " + bodyRequest);
                 System.out.println("[HYPER-PTEROAPI] Request Method: " + connection.getRequestMethod());
-                System.out.println("[HYPER-PTEROAPI] Request Link: " + painelLink + actionType.getLinkPatch());
+                System.out.println("[HYPER-PTEROAPI] Request Link: " + finalLink);
             }
         } catch (IOException e) {
             e.printStackTrace();
             if (PterodactylAPI.getDebugMode() == DebugMode.ON) {
                 System.out.println("[HYPER-PTEROAPI] Request BodyCode: " + bodyRequest);
+                System.out.println("[HYPER-PTEROAPI] Request BodyCode: " + bodyRequest);
+                System.out.println("[HYPER-PTEROAPI] Request Link: " + finalLink);
             }
         }
     }
