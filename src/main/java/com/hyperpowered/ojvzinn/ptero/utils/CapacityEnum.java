@@ -11,7 +11,7 @@ public enum CapacityEnum {
 
     private final double baseNumber;
 
-    public double transformToMibs(Double value) {
-        return baseNumber * value;
+    public Double transformToMibs(Double value) {
+        return (baseNumber * value);
     }
 }

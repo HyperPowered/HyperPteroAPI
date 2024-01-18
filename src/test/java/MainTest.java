@@ -1,6 +1,10 @@
 import com.hyperpowered.ojvzinn.ptero.PterodactylAPI;
 import com.hyperpowered.ojvzinn.ptero.builder.ServerCreatorBuilder;
+import com.hyperpowered.ojvzinn.ptero.builder.ServerUpdaterBuildBuilder;
+import com.hyperpowered.ojvzinn.ptero.builder.ServerUpdaterStartupBuilder;
 import com.hyperpowered.ojvzinn.ptero.manager.ServersManager;
+import com.hyperpowered.ojvzinn.ptero.model.ServerModel;
+import com.hyperpowered.ojvzinn.ptero.utils.CapacityEnum;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,8 +22,6 @@ public class MainTest {
     @Test
     @DisplayName("test")
     public void test() {
-        PterodactylAPI.changeDebugMode();
-        ServersManager manager = PterodactylAPI.managerServer("", "");
     }
 
 
