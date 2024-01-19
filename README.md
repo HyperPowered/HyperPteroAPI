@@ -134,18 +134,6 @@ public void test() {
 }
 ```
 
-### Atualize informações de build do seu servidor utilizando o HyperPteroAPI:
-```java
-public void test() {
-    PterodactylAPI api = new PterodactylAPI(DebugMode.ON);
-    ServersManager serverManager = api.managerServer("API TOKEN DO PTERODACTYL", "https://painel.SEUDOMINIO.com");
-    ServerModel server = serverManager.getServerByID("1"); //Busque o servidor alvo com seu ID
-    ServerUpdaterBuildBuilder builder = new ServerUpdaterBuildBuilder(server); //Utilize o object do servidor para que, se caso não for alterar todas as configuções, se mantenha como está
-    builder.appendMemoryLimit(1D, CapacityEnum.GIGA); //Atualizará a quantidade de memoria do servidor para 1 giga
-    serverManager.updateServerBuild("1", builder); //Envie todas as configurações feita pelo builder para o Pterodactyl
-}
-```
-
 ### Atualize informações de startup do seu servidor utilizando o HyperPteroAPI:
 ```java
 public void test() {
