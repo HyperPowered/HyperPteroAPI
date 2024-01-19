@@ -2,18 +2,20 @@ package com.hyperpowered.ojvzinn.ptero;
 
 import com.hyperpowered.ojvzinn.ptero.manager.ServersManager;
 import com.hyperpowered.ojvzinn.ptero.utils.DebugMode;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@AllArgsConstructor
+@Getter
 public class PterodactylAPI {
 
-    @Getter
-    private static DebugMode debugMode = DebugMode.OFF;
+    private DebugMode debugMode;
 
-    public static ServersManager managerServer(String apiToken, String painelLink) {
+    public ServersManager managerServer(String apiToken, String painelLink) {
         return new ServersManager(painelLink, apiToken);
     }
 
-    public static void changeDebugMode() {
+    public void changeDebugMode() {
         if (debugMode == DebugMode.ON) {
             debugMode = DebugMode.OFF;
         } else {
@@ -21,7 +23,7 @@ public class PterodactylAPI {
         }
     }
 
-    public static void setDebugMode(DebugMode mode) {
+    public void setDebugMode(DebugMode mode) {
         debugMode = mode;
     }
 

@@ -21,7 +21,6 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-@SuppressWarnings("unchecked")
 public class ServersManager {
 
     private final String painelLink;
@@ -42,12 +41,12 @@ public class ServersManager {
         new Requester(RequestMethod.POST, this.apiToken, this.painelLink, ActionType.SERVER).request("", serverID + "/reinstall");
     }
 
-    public void unsuspendServer(String serverID) {
-        new Requester(RequestMethod.POST, this.apiToken, this.painelLink, ActionType.SERVER).request("", serverID + "/unsuspend");
-    }
-
     public void suspendServer(String serverID) {
         new Requester(RequestMethod.POST, this.apiToken, this.painelLink, ActionType.SERVER).request("", serverID + "/suspend");
+    }
+
+    public void unSuspendServer(String serverID) {
+        new Requester(RequestMethod.POST, this.apiToken, this.painelLink, ActionType.SERVER).request("", serverID + "/unsuspend");
     }
 
     public List<ServerModel> listAllServers() {
@@ -77,6 +76,7 @@ public class ServersManager {
             parser = new ServerParser(serverJsonResponce.get("attributes").toString());
             parser.parser();
         } catch (ParseException e) {
+            System.out.println("Servidor Não encontrado");
             throw new RuntimeException(e);
         }
 
