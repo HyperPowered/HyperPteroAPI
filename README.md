@@ -13,7 +13,7 @@ public class Main {
 Com isso, você inicia a API, com todos os seus módulos funcionando.
 <br/>
 
-## Como um manager
+## Como gerenciar um manager
 Para utilizar algum gerenciador, é necessário que você a função "getManager", que pede como parametro uma classe, na qual estende a classe "Manager".
 <br/>
 ```java
