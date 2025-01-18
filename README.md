@@ -10,8 +10,9 @@ public class Main {
     }
 }
 ```
-<br/>
 Com isso, você inicia a API, com todos os seus módulos funcionando.
+<br/>
+
 ## Como um manager
 Para utilizar algum gerenciador, é necessário que você a função "getManager", que pede como parametro uma classe, na qual estende a classe "Manager".
 <br/>
@@ -23,5 +24,4 @@ public class Main {
     }
 }
 ```
-<br/>
 Assim, sendo possível gerenciar os usuários do painel.
