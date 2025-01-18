@@ -12,3 +12,16 @@ public class Main {
 ```
 <br/>
 Com isso, você inicia a API, com todos os seus módulos funcionando.
+## Como um manager
+Para utilizar algum gerenciador, é necessário que você a função "getManager", que pede como parametro uma classe, na qual estende a classe "Manager".
+<br/>
+```java
+public class Main {
+    public static void main(String[] args) {
+        PteroAPI.initPteroAPI("https://example.com.br", "TOKEN", ManagerPolicy.ALL);
+        UserManager userManager = PteroAPI.getManager(UserManager.class);
+    }
+}
+```
+<br/>
+Assim, sendo possível gerenciar os usuários do painel.
