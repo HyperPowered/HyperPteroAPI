@@ -214,16 +214,16 @@ public class ServerManager extends Manager {
         });
     }
 
-    public CompletableFuture<JSONObject> resetPassword(long serverID, Database database) {
-        return sendAction(ApplicationEndpoint.SERVERS.getEndpoint() + "/" + serverID + "/databases/" + database.getId() + "/reset-password").exceptionally(throwable -> {
+    public CompletableFuture<JSONObject> resetPassword(long serverID, long databaseID) {
+        return sendAction(ApplicationEndpoint.SERVERS.getEndpoint() + "/" + serverID + "/databases/" + databaseID + "/reset-password").exceptionally(throwable -> {
             LOGGER.severe("OCORREU UM ERRO AO CRIAR UM SERVIDOR: " + throwable.getMessage() + "\n");
             sendError(throwable, LOGGER);
             return null;
         });
     }
 
-    public CompletableFuture<JSONObject> deleteDatabase(long serverID, Database database) {
-        return delete(ApplicationEndpoint.SERVERS.getEndpoint() + "/" + serverID + "/databases/" + database.getId()).exceptionally(throwable -> {
+    public CompletableFuture<JSONObject> deleteDatabase(long serverID, long databaseID) {
+        return delete(ApplicationEndpoint.SERVERS.getEndpoint() + "/" + serverID + "/databases/" + databaseID).exceptionally(throwable -> {
             LOGGER.severe("OCORREU UM ERRO AO DELETAR UM DATABASE: " + throwable.getMessage() + "\n");
             sendError(throwable, LOGGER);
             return null;

@@ -52,7 +52,7 @@ public class ServerBuilder implements Builder {
         return this;
     }
 
-    public ServerBuilder appendServerFutureLimit(ServerFeatureLimitBuilder builder) {
+    public ServerBuilder appendServerFutureLimit(ServerFutureLimitBuilder builder) {
         this.serverFeatureLimitBuilder = builder;
         return this;
     }

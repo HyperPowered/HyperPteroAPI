@@ -5,17 +5,17 @@ import net.hyperpowered.interfaces.Builder;
 import org.json.simple.JSONObject;
 
 @Getter
-public class ServerFeatureLimitBuilder implements Builder {
+public class ServerFutureLimitBuilder implements Builder {
 
     private Long databases;
     private Long backups;
 
-    public ServerFeatureLimitBuilder appendDatabase(long databases) {
+    public ServerFutureLimitBuilder appendDatabase(long databases) {
         this.databases = databases;
         return this;
     }
 
-    public ServerFeatureLimitBuilder appendBackups(long backups) {
+    public ServerFutureLimitBuilder appendBackups(long backups) {
         this.backups = backups;
         return this;
     }

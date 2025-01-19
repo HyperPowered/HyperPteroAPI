@@ -44,7 +44,7 @@ public class NestManager extends Manager {
         return response;
     }
 
-    public CompletableFuture<List<Egg>> lestEggs(long nestID) {
+    public CompletableFuture<List<Egg>> listEggs(long nestID) {
         CompletableFuture<List<Egg>> response = new CompletableFuture<>();
         fetch(ApplicationEndpoint.NESTS.getEndpoint() + "/" + nestID + "/include=nest,servers").thenAccept(responseJson -> {
             List<Egg> eggs = new ArrayList<>();
