@@ -6,7 +6,10 @@
 
     <groupId>net.hyperpowered</groupId>
     <artifactId>pteroapi</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
+
+    <name>hyper-ptero-api</name>
+    <description>API para manipulação do Pterodactyl em Java.</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -58,4 +61,17 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>hyperpowered-maven-releases</id>
+            <name>HyperPowered Maven Repository</name>
+            <url>https://maven.hyperpowered.net/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>hyperpowered-maven-snapshots</id>
+            <name>HyperPowered Maven Repository</name>
+            <url>https://maven.hyperpowered.net/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
