@@ -41,9 +41,9 @@ public class PteroAPI {
 
     private static void startupManagers(ManagerPolicy... managerPolicy) {
         for (ManagerPolicy manager : managerPolicy) {
-            if (Objects.requireNonNull(manager) == ManagerPolicy.ALL) {
-                Arrays.stream(ManagerPolicy.values()).filter(cache -> cache != ManagerPolicy.ALL).collect(Collectors.toList()).forEach(cache -> managers.add(loadClass(manager)));
-                return;
+            if (manager == ManagerPolicy.ALL) {
+                Arrays.stream(ManagerPolicy.values()).map(PteroAPI::loadClass).filter(Objects::nonNull).forEach(managers::add);
+                continue;
             }
 
             managers.add(loadClass(manager));
@@ -54,6 +54,11 @@ public class PteroAPI {
     private static Manager loadClass(ManagerPolicy managerPolicy) {
         try {
             Class<? extends Manager> managerClass = managerPolicy.getClassManager();
+
+            if (managerClass == null) {
+                return null;
+            }
+
             Constructor<? extends Manager> constructor = managerClass.getDeclaredConstructor();
             constructor.setAccessible(true);
             return constructor.newInstance();

@@ -25,31 +25,21 @@ public class APITest {
         String PTERO_URL = System.getenv("PTERO_URL");
         String PTERO_KEY = System.getenv("PTERO_KEY");
 
-        PteroAPI.initPteroAPI(PTERO_URL, PTERO_KEY);
+        PteroAPI.initPteroAPI(PTERO_URL, PTERO_KEY, ManagerPolicy.ALL);
         this.userManager = PteroAPI.getManager(UserManager.class);
     }
 
-    private int userId;
+    private long userId;
 
     @Test
     @DisplayName("Create User")
     @Order(1)
     public void createUser() throws Exception {
-        CompletableFuture<JSONObject> future = userManager.createUser(new UserBuilder().appendEmail("teste-sequencial@gmail.com").appendUsername("teste").appendFirstName("John").appendLastName("Cena"));
+        CompletableFuture<JSONObject> future = userManager.createUser(new UserBuilder().appendEmail("testesequencial@gmail.com").appendUsername("teste").appendFirstName("John").appendLastName("Cena").appendPassword("a@#%sPpsn9gy53gAaa3v"));
 
-        while (!future.isDone()) {
-            Thread.sleep(125);
-        }
-
-        JSONObject payload = future.get();
-//        userId = payload.get("")
-
-        assertFalse(future.isCompletedExceptionally());
+        JSONObject userPayload = (JSONObject) ((JSONObject) future.get().get("response")).get("attributes");
+        assertNotNull(userPayload);
+        this.userId = (long) userPayload.get("id");
     }
 
-    @Test
-    @DisplayName("Update User")
-    @Order(2)
-    public void updateUser() throws Exception {
-    }
 }
