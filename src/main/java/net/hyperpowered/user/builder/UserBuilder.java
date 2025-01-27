@@ -11,6 +11,7 @@ public class UserBuilder implements Builder {
     private String username;
     private String firstName;
     private String lastName;
+    private String password;
 
     public UserBuilder appendEmail(String email) {
         this.email = email;
@@ -32,6 +33,11 @@ public class UserBuilder implements Builder {
         return this;
     }
 
+    public UserBuilder appendPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
     @Override
     public JSONObject buildToJSON() throws IllegalArgumentException {
         if (this.email == null || this.username == null || this.firstName == null || this.lastName == null) {
@@ -43,6 +49,9 @@ public class UserBuilder implements Builder {
         user.put("username", this.getUsername());
         user.put("first_name", this.getFirstName());
         user.put("last_name", this.getLastName());
+        if (password != null && !password.isEmpty()) {
+            user.put("password", this.getPassword());
+        }
         return user;
     }
 }

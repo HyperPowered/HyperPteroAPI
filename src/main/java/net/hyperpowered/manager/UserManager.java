@@ -109,6 +109,9 @@ public class UserManager extends Manager {
         response.put("language", user.getLanguage());
         response.put("root_admin", user.isAdmin());
         response.put("2fa", user.isTwoFactors());
+        if(user.getPassword() != null && !user.getPassword().isEmpty()){
+            response.put("password", user.getPassword());
+        }
         return response;
     }
 

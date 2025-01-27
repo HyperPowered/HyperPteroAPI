@@ -6,7 +6,7 @@
 
     <groupId>net.hyperpowered</groupId>
     <artifactId>pteroapi</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 
     <name>hyper-ptero-api</name>
     <description>API para manipulação do Pterodactyl em Java.</description>
@@ -25,8 +25,7 @@
             <version>1.18.36</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- JSON -->
+        <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
