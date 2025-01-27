@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 @Getter
 public class UserBuilder implements Builder {
 
+    private String externalId;
     private String email;
     private String username;
     private String firstName;
@@ -38,6 +39,11 @@ public class UserBuilder implements Builder {
         return this;
     }
 
+    public UserBuilder appendExternalId(String externalId) {
+        this.externalId = externalId;
+        return this;
+    }
+
     @Override
     public JSONObject buildToJSON() throws IllegalArgumentException {
         if (this.email == null || this.username == null || this.firstName == null || this.lastName == null) {
@@ -51,6 +57,9 @@ public class UserBuilder implements Builder {
         user.put("last_name", this.getLastName());
         if (password != null && !password.isEmpty()) {
             user.put("password", this.getPassword());
+        }
+        if (externalId != null && !externalId.isEmpty()) {
+            user.put("external_id", externalId);
         }
         return user;
     }

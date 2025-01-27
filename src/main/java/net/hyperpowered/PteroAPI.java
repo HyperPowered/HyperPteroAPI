@@ -43,7 +43,7 @@ public class PteroAPI {
         for (ManagerPolicy manager : managerPolicy) {
             if (manager == ManagerPolicy.ALL) {
                 Arrays.stream(ManagerPolicy.values()).map(PteroAPI::loadClass).filter(Objects::nonNull).forEach(managers::add);
-                continue;
+                return;
             }
 
             managers.add(loadClass(manager));

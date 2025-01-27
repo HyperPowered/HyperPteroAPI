@@ -35,7 +35,13 @@ public class APITest {
     @DisplayName("Create User")
     @Order(1)
     public void createUser() throws Exception {
-        CompletableFuture<JSONObject> future = userManager.createUser(new UserBuilder().appendEmail("testesequencial@gmail.com").appendUsername("teste").appendFirstName("John").appendLastName("Cena").appendPassword("a@#%sPpsn9gy53gAaa3v"));
+        CompletableFuture<JSONObject> future = userManager.createUser(new UserBuilder()
+                .appendEmail("testesequencial@gmail.com")
+                .appendUsername("teste")
+                .appendFirstName("John")
+                .appendLastName("Cena")
+                .appendPassword("a@#%sPpsn9gy53gAaa3v")
+                .appendExternalId("leitadaJunior"));
 
         JSONObject userPayload = (JSONObject) ((JSONObject) future.get().get("response")).get("attributes");
         assertNotNull(userPayload);
