@@ -6,7 +6,7 @@
 
     <groupId>net.hyperpowered</groupId>
     <artifactId>pteroapi</artifactId>
-    <version>1.1</version>
+    <version>1.3</version>
 
     <name>hyper-ptero-api</name>
     <description>API para manipulação do Pterodactyl em Java.</description>

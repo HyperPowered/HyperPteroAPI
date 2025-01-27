@@ -12,6 +12,7 @@ public class ServerBuilder implements Builder {
     private Long egg;
     private String dockerImage;
     private String startup;
+    private String externalId;
     private JSONObject environment;
     private Builder serverLimitBuilder;
     private Builder serverFeatureLimitBuilder;
@@ -62,6 +63,12 @@ public class ServerBuilder implements Builder {
         return this;
     }
 
+    public ServerBuilder appendExternalId(String externalId) {
+        this.externalId = externalId;
+        return this;
+    }
+
+
     @Override
     public JSONObject buildToJSON() throws IllegalArgumentException {
         if (this.name == null || this.user == null || this.egg == null || this.dockerImage == null || this.startup == null || this.environment == null || this.serverLimitBuilder == null || this.serverFeatureLimitBuilder == null || this.serverAllocationBuilder == null) {
@@ -78,6 +85,9 @@ public class ServerBuilder implements Builder {
         response.put("limits", serverLimitBuilder.buildToJSON());
         response.put("feature_limits", serverFeatureLimitBuilder.buildToJSON());
         response.put("allocation", serverAllocationBuilder.buildToJSON());
+        if (externalId != null && !externalId.isEmpty()) {
+            response.put("external_id", externalId);
+        }
         return response;
     }
 }
