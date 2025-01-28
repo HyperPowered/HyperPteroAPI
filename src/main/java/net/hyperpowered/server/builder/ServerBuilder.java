@@ -13,6 +13,7 @@ public class ServerBuilder implements Builder {
     private String dockerImage;
     private String startup;
     private String externalId;
+    private int node = 1;
     private JSONObject environment;
     private Builder serverLimitBuilder;
     private Builder serverFeatureLimitBuilder;
@@ -68,6 +69,10 @@ public class ServerBuilder implements Builder {
         return this;
     }
 
+    public ServerBuilder appendNode(int node) {
+        this.node = node;
+        return this;
+    }
 
     @Override
     public JSONObject buildToJSON() throws IllegalArgumentException {
@@ -85,6 +90,7 @@ public class ServerBuilder implements Builder {
         response.put("limits", serverLimitBuilder.buildToJSON());
         response.put("feature_limits", serverFeatureLimitBuilder.buildToJSON());
         response.put("allocation", serverAllocationBuilder.buildToJSON());
+        response.put("node", node);
         if (externalId != null && !externalId.isEmpty()) {
             response.put("external_id", externalId);
         }
