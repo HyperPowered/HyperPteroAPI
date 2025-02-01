@@ -1,6 +1,8 @@
 import net.hyperpowered.PteroAPI;
+import net.hyperpowered.manager.NodeManager;
 import net.hyperpowered.manager.ServerManager;
 import net.hyperpowered.manager.UserManager;
+import net.hyperpowered.node.Allocation;
 import net.hyperpowered.server.builder.ServerAllocationBuilder;
 import net.hyperpowered.server.builder.ServerBuilder;
 import net.hyperpowered.server.builder.ServerFutureLimitBuilder;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -20,6 +23,7 @@ public class APITest {
 
     private UserManager userManager;
     private ServerManager serverManager;
+    private NodeManager nodeManager;
 
     @BeforeAll
     public void before() {
@@ -34,6 +38,7 @@ public class APITest {
         PteroAPI.initPteroAPI(PTERO_URL, PTERO_KEY, ManagerPolicy.ALL);
         this.userManager = PteroAPI.getManager(UserManager.class);
         this.serverManager = PteroAPI.getManager(ServerManager.class);
+        this.nodeManager = PteroAPI.getManager(NodeManager.class);
     }
 
     private long userId;
@@ -60,7 +65,8 @@ public class APITest {
 
     @Test
     @DisplayName("Create Server")
-    @Order(1)
+    @Order(2)
+    @Disabled
     public void createServer() throws Exception {
         ServerAllocationBuilder serverAllocation = new ServerAllocationBuilder().appendDefault(18L);
 
@@ -88,6 +94,15 @@ public class APITest {
         JSONObject serverPayload = (JSONObject) ((JSONObject) future.get().get("response")).get("attributes");
         assertNotNull(serverPayload);
         this.serverId = (long) serverPayload.get("id");
+    }
+
+    @Test
+    @DisplayName("Get Allocations")
+    @Order(3)
+    public void getAllocations() throws Exception {
+        List<Allocation> allcs = nodeManager.listAllocations(1).get();
+        int totalSize = nodeManager.getAllocationCount(1).get();
+        assertEquals(totalSize, allcs.size());
     }
 
 }

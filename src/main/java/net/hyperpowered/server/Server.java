@@ -24,6 +24,7 @@ public class Server {
     @Setter
     private String description;
 
+    @Setter
     private boolean suspended;
     private ServerLimit serverLimit;
     private ServerFutureLimit serverFutureLimit;

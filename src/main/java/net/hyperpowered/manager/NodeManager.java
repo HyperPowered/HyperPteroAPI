@@ -51,6 +51,15 @@ public class NodeManager extends Manager {
             try {
                 JSONObject responseObject = (JSONObject) responseJson.get("response");
                 JSONArray allocationJson = (JSONArray) responseObject.get("data");
+                JSONObject meta = (JSONObject) responseObject.get("meta");
+                JSONObject pagination = (JSONObject) meta.get("pagination");
+                long pages = (long) pagination.get("total_pages");
+
+                for (int i = 1; i < pages; i++) {
+                    List<Allocation> allcs = listAllocations(nodeID, (i + 1)).get();
+                    allocations.addAll(allcs);
+                }
+
                 for (Object allocationDetails : allocationJson) {
                     Allocation allocation = parseAllocation(allocationDetails.toString());
                     allocations.add(allocation);
@@ -60,6 +69,52 @@ public class NodeManager extends Manager {
             }
 
             response.complete(allocations);
+        }).exceptionally(throwable -> {
+            LOGGER.severe("OCORREU UM ERRO AO CARREGAR AS PORTAS: " + throwable.getMessage() + "\n");
+            sendError(throwable, LOGGER);
+            return null;
+        });
+
+        return response;
+    }
+
+    public CompletableFuture<List<Allocation>> listAllocations(long nodeID, int page) {
+        CompletableFuture<List<Allocation>> response = new CompletableFuture<>();
+        fetch(ApplicationEndpoint.NODES.getEndpoint() + "/" + nodeID + "/allocations?page=" + page).thenAccept(responseJson -> {
+            List<Allocation> allocations = new ArrayList<>();
+            try {
+                JSONObject responseObject = (JSONObject) responseJson.get("response");
+                JSONArray allocationJson = (JSONArray) responseObject.get("data");
+                for (Object allocationDetails : allocationJson) {
+                    Allocation allocation = parseAllocation(allocationDetails.toString());
+                    allocations.add(allocation);
+                }
+            } catch (Exception e) {
+                response.completeExceptionally(e);
+            }
+
+            response.complete(allocations);
+        }).exceptionally(throwable -> {
+            LOGGER.severe("OCORREU UM ERRO AO CARREGAR AS PORTAS: " + throwable.getMessage() + "\n");
+            sendError(throwable, LOGGER);
+            return null;
+        });
+
+        return response;
+    }
+
+    public CompletableFuture<Integer> getAllocationCount(long nodeID) {
+        CompletableFuture<Integer> response = new CompletableFuture<>();
+        fetch(ApplicationEndpoint.NODES.getEndpoint() + "/" + nodeID + "/allocations").thenAccept(responseJson -> {
+            try {
+                JSONObject responseObject = (JSONObject) responseJson.get("response");
+                JSONObject meta = (JSONObject) responseObject.get("meta");
+                JSONObject pagination = (JSONObject) meta.get("pagination");
+                int total = Math.toIntExact((long) pagination.get("total"));
+                response.complete(total);
+            } catch (Exception e) {
+                response.completeExceptionally(e);
+            }
         }).exceptionally(throwable -> {
             LOGGER.severe("OCORREU UM ERRO AO CARREGAR AS PORTAS: " + throwable.getMessage() + "\n");
             sendError(throwable, LOGGER);
