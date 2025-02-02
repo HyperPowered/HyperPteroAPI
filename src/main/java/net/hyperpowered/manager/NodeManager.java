@@ -44,6 +44,58 @@ public class NodeManager extends Manager {
         return response;
     }
 
+    public CompletableFuture<List<Allocation>> getAllocationByPort(long nodeID, int port) {
+        CompletableFuture<List<Allocation>> response = new CompletableFuture<>();
+        fetch(ApplicationEndpoint.NODES.getEndpoint() + "/" + nodeID + "/allocations?filter[port]=" + port).thenAccept(responseJson -> {
+            List<Allocation> allocations = new ArrayList<>();
+            try {
+                JSONObject responseObject = (JSONObject) responseJson.get("response");
+                JSONArray allocationJson = (JSONArray) responseObject.get("data");
+
+                for (Object allocationDetails : allocationJson) {
+                    Allocation allocation = parseAllocation(allocationDetails.toString());
+                    allocations.add(allocation);
+                }
+            } catch (Exception e) {
+                response.completeExceptionally(e);
+            }
+
+            response.complete(allocations);
+        }).exceptionally(throwable -> {
+            LOGGER.severe("OCORREU UM ERRO AO CARREGAR AS PORTAS: " + throwable.getMessage() + "\n");
+            sendError(throwable, LOGGER);
+            return null;
+        });
+
+        return response;
+    }
+
+    public CompletableFuture<List<Allocation>> getAllocationByIP(long nodeID, String ip, int port) {
+        CompletableFuture<List<Allocation>> response = new CompletableFuture<>();
+        fetch(ApplicationEndpoint.NODES.getEndpoint() + "/" + nodeID + "/allocations?filter[port]=" + port+"&filter[ip]="+ip).thenAccept(responseJson -> {
+            List<Allocation> allocations = new ArrayList<>();
+            try {
+                JSONObject responseObject = (JSONObject) responseJson.get("response");
+                JSONArray allocationJson = (JSONArray) responseObject.get("data");
+
+                for (Object allocationDetails : allocationJson) {
+                    Allocation allocation = parseAllocation(allocationDetails.toString());
+                    allocations.add(allocation);
+                }
+            } catch (Exception e) {
+                response.completeExceptionally(e);
+            }
+
+            response.complete(allocations);
+        }).exceptionally(throwable -> {
+            LOGGER.severe("OCORREU UM ERRO AO CARREGAR AS PORTAS: " + throwable.getMessage() + "\n");
+            sendError(throwable, LOGGER);
+            return null;
+        });
+
+        return response;
+    }
+
     public CompletableFuture<List<Allocation>> listAllocations(long nodeID) {
         CompletableFuture<List<Allocation>> response = new CompletableFuture<>();
         fetch(ApplicationEndpoint.NODES.getEndpoint() + "/" + nodeID + "/allocations").thenAccept(responseJson -> {
