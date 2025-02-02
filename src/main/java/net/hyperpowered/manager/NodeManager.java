@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class NodeManager extends Manager {
 
-    private static final PteroLogger LOGGER = new PteroLogger("NODES");
+    private final PteroLogger LOGGER = new PteroLogger("NODES");
 
     public CompletableFuture<List<Node>> listNodes() {
         CompletableFuture<List<Node>> response = new CompletableFuture<>();

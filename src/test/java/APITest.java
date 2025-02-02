@@ -7,6 +7,7 @@ import net.hyperpowered.server.builder.ServerAllocationBuilder;
 import net.hyperpowered.server.builder.ServerBuilder;
 import net.hyperpowered.server.builder.ServerFutureLimitBuilder;
 import net.hyperpowered.server.builder.ServerLimitBuilder;
+import net.hyperpowered.user.User;
 import net.hyperpowered.user.builder.UserBuilder;
 import net.hyperpowered.utils.ManagerPolicy;
 import org.json.simple.JSONObject;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -103,6 +105,15 @@ public class APITest {
         List<Allocation> allcs = nodeManager.listAllocations(1).get();
         int totalSize = nodeManager.getAllocationCount(1).get();
         assertEquals(totalSize, allcs.size());
+    }
+
+    @Test
+    @DisplayName("Get Non Exists User")
+    @Order(4)
+    public void userNonExists() throws Exception {
+        assertThrows(CompletionException.class, () -> {
+            User user = userManager.getUser(4).join();
+        });
     }
 
 }

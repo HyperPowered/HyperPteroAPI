@@ -39,9 +39,11 @@ public class Requester {
                 writeBody(body, connection);
 
                 int responseCode = connection.getResponseCode();
+
+
                 jsonResponse.put("httpCode", responseCode);
                 jsonResponse.put("httpHeader", connection.getHeaderFields());
-                jsonResponse.put("response", getJsonResponse(connection));
+                jsonResponse.put("response", responseCode == HttpURLConnection.HTTP_NOT_FOUND ? new JSONObject() : getJsonResponse(connection));
                 response.complete(jsonResponse);
             } catch (IOException | ParseException e) {
                 response.completeExceptionally(e);

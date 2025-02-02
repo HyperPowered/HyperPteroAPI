@@ -76,10 +76,7 @@ public abstract class Manager {
     }
 
     public void sendError(Throwable throwable, PteroLogger logger) {
-        for (StackTraceElement stackTraceElement : throwable.getStackTrace()) {
-            logger.severe("Error on class: " + stackTraceElement.getClassName() + ", on method: " + stackTraceElement.getMethodName() + ", line: " + stackTraceElement.getLineNumber() + "\n");
-        }
-
+        throwable.printStackTrace();
         throw new RuntimeException(throwable);
     }
 }

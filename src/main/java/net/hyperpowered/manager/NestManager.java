@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class NestManager extends Manager {
 
-    private static final PteroLogger LOGGER = new PteroLogger("NEST");
+    public static final PteroLogger LOGGER = new PteroLogger("NEST");
 
     public CompletableFuture<List<Nest>> listNest() {
         CompletableFuture<List<Nest>> response = new CompletableFuture<>();

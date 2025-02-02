@@ -16,7 +16,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class UserManager extends Manager {
 
-    private static final PteroLogger LOGGER = new PteroLogger("USER");
+    public static PteroLogger LOGGER = new PteroLogger("USER");
 
     public CompletableFuture<List<User>> listUsers() {
         CompletableFuture<List<User>> response = new CompletableFuture<>();

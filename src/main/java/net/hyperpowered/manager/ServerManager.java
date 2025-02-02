@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class ServerManager extends Manager {
 
-    private static final PteroLogger LOGGER = new PteroLogger("SERVER");
+    private static PteroLogger LOGGER = new PteroLogger("SERVER");
 
     public CompletableFuture<List<Server>> listServers() {
         CompletableFuture<List<Server>> response = new CompletableFuture<>();
