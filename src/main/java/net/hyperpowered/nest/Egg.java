@@ -2,12 +2,14 @@ package net.hyperpowered.nest;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 import org.json.simple.JSONObject;
 
 import java.util.UUID;
 
 @AllArgsConstructor
 @Getter
+@ToString
 public class Egg {
 
     private long id;

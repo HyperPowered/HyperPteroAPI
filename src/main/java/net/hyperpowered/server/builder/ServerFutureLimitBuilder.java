@@ -9,6 +9,7 @@ public class ServerFutureLimitBuilder implements Builder {
 
     private Long databases;
     private Long backups;
+    private Long allocations;
 
     public ServerFutureLimitBuilder appendDatabase(long databases) {
         this.databases = databases;
@@ -17,6 +18,11 @@ public class ServerFutureLimitBuilder implements Builder {
 
     public ServerFutureLimitBuilder appendBackups(long backups) {
         this.backups = backups;
+        return this;
+    }
+
+    public ServerFutureLimitBuilder appendAllocations(long allocations) {
+        this.allocations = allocations;
         return this;
     }
 
@@ -29,6 +35,7 @@ public class ServerFutureLimitBuilder implements Builder {
         JSONObject response = new JSONObject();
         response.put("databases", databases);
         response.put("backups", backups);
+        response.put("allocations", allocations);
         return response;
     }
 }

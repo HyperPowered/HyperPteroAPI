@@ -76,7 +76,7 @@ public class ServerBuilder implements Builder {
 
     @Override
     public JSONObject buildToJSON() throws IllegalArgumentException {
-        if (this.name == null || this.user == null || this.egg == null || this.dockerImage == null || this.startup == null || this.environment == null || this.serverLimitBuilder == null || this.serverFeatureLimitBuilder == null || this.serverAllocationBuilder == null) {
+        if (this.name == null || this.user == null || this.egg == null || this.dockerImage == null || this.environment == null || this.serverLimitBuilder == null || this.serverFeatureLimitBuilder == null || this.serverAllocationBuilder == null) {
             throw new IllegalArgumentException("OS ARGUMENTOS NAO PODEM SER NULOS!");
         }
 
@@ -85,7 +85,9 @@ public class ServerBuilder implements Builder {
         response.put("user", user);
         response.put("egg", egg);
         response.put("docker_image", dockerImage);
-        response.put("startup", startup);
+        if (startup != null) {
+            response.put("startup", startup);
+        }
         response.put("environment", environment);
         response.put("limits", serverLimitBuilder.buildToJSON());
         response.put("feature_limits", serverFeatureLimitBuilder.buildToJSON());

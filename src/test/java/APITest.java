@@ -1,7 +1,9 @@
 import net.hyperpowered.PteroAPI;
+import net.hyperpowered.manager.NestManager;
 import net.hyperpowered.manager.NodeManager;
 import net.hyperpowered.manager.ServerManager;
 import net.hyperpowered.manager.UserManager;
+import net.hyperpowered.nest.Egg;
 import net.hyperpowered.node.Allocation;
 import net.hyperpowered.server.builder.ServerAllocationBuilder;
 import net.hyperpowered.server.builder.ServerBuilder;
@@ -16,6 +18,7 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
@@ -26,6 +29,7 @@ public class APITest {
     private UserManager userManager;
     private ServerManager serverManager;
     private NodeManager nodeManager;
+    private NestManager nestManager;
 
     @BeforeAll
     public void before() {
@@ -41,9 +45,11 @@ public class APITest {
         this.userManager = PteroAPI.getManager(UserManager.class);
         this.serverManager = PteroAPI.getManager(ServerManager.class);
         this.nodeManager = PteroAPI.getManager(NodeManager.class);
+        this.nestManager = PteroAPI.getManager(NestManager.class);
     }
 
     private long userId;
+    private User user;
 
     @Test
     @DisplayName("Create User")
@@ -58,19 +64,41 @@ public class APITest {
                 .appendPassword("a@#%sPpsn9gy53gAaa3v")
                 .appendExternalId("leitadaJunior"));
 
-        JSONObject userPayload = (JSONObject) ((JSONObject) future.get().get("response")).get("attributes");
+        User userPayload = userManager.parseUser(future.get().get("response").toString());
         assertNotNull(userPayload);
-        this.userId = (long) userPayload.get("id");
+        this.userId = userPayload.getId();
+        this.user = userPayload;
+    }
+
+    @Test
+    @DisplayName("Update User")
+    @Order(2)
+    @Disabled
+    public void updateUser() throws Exception {
+        user.setUsername("userofnames");
+        user.setFirstName("Joao");
+        user.setLastName("Cena");
+        userManager.updateUser(user);
+    }
+
+    @Test
+    @DisplayName("Delete User")
+    @Order(3)
+    @Disabled
+    public void deleteUser() throws Exception {
+        userManager.deleteUser(userId);
     }
 
     private long serverId;
 
     @Test
     @DisplayName("Create Server")
-    @Order(2)
-    @Disabled
+    @Order(4)
+//    @Disabled
     public void createServer() throws Exception {
-        ServerAllocationBuilder serverAllocation = new ServerAllocationBuilder().appendDefault(18L);
+        Egg egg = nestManager.getEgg(7, 18).get();
+        System.out.println(egg);
+        ServerAllocationBuilder serverAllocation = new ServerAllocationBuilder().appendDefault(57L);
 
         ServerFutureLimitBuilder serverFutureLimit = new ServerFutureLimitBuilder().appendBackups(1)
                 .appendDatabase(0);
@@ -81,14 +109,18 @@ public class APITest {
                 .appendIO(500)
                 .appendSwap(0);
 
+        JSONObject env = new JSONObject();
+        env.put("PGUSER", "ptero");
+        env.put("PGPASSWORD", "Pl3453Ch4n63M3!");
+
         ServerBuilder builder = new ServerBuilder().appendName("Building")
                 .appendServerAllocationLimit(serverAllocation)
-                .appendStartup("ls")
+                .appendStartup(egg.getStartup())
                 .appendServerFutureLimit(serverFutureLimit)
-                .appendEnvironment(new JSONObject())
-                .appendEgg(21)
+                .appendEnvironment(env)
+                .appendEgg(egg.getId())
                 .appendUser(1)
-                .appendDockerImage("ghcr.io/parkervcp/yolks:alpine")
+                .appendDockerImage(egg.getDocker_image())
                 .appendExternalId("abc123")
                 .appendServerLimit(serverLimit);
 
@@ -100,7 +132,8 @@ public class APITest {
 
     @Test
     @DisplayName("Get Allocations")
-    @Order(3)
+    @Order(5)
+    @Disabled
     public void getAllocations() throws Exception {
         List<Allocation> allcs = nodeManager.listAllocations(1).get();
         int totalSize = nodeManager.getAllocationCount(1).get();
@@ -109,7 +142,8 @@ public class APITest {
 
     @Test
     @DisplayName("Get Non Exists User")
-    @Order(4)
+    @Order(6)
+    @Disabled
     public void userNonExists() throws Exception {
         assertThrows(CompletionException.class, () -> {
             User user = userManager.getUser(4).join();
